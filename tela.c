@@ -72,14 +72,14 @@ void desenha (char tela[ALTURA][LARGURA]) {
     }
 }
 
-void mover (char tela[ALTURA][LARGURA], Snake* p,Ponto* n, int* score, int* reinicia) {
+void mover (char tela[ALTURA][LARGURA], Snake* p,Ponto** n, int* score, int* reinicia) {
     if (p->d == NORTE) {
         if (tela[p->y-1][p->x]==ESPACO || tela[p->y-1][p->x]==PONTO) {
             if (tela[p->y-1][p->x]==PONTO) {
                 snakeCresce(p);
-                if (n!=NULL) {
-                    free(n);
-                    n=NULL;
+                if (*n!=NULL) {
+                    free(*n);
+                    *n=NULL;
                 }
                 norte(tela, p);
                 *score=pontua(*score,tela);
@@ -95,9 +95,9 @@ void mover (char tela[ALTURA][LARGURA], Snake* p,Ponto* n, int* score, int* rein
         if (tela[p->y+1][p->x]==ESPACO || tela[p->y+1][p->x]==PONTO) {
             if (tela[p->y+1][p->x]==PONTO) {
                 snakeCresce(p);
-                if (n!=NULL) {
-                    free(n);
-                    n=NULL;
+                if (*n!=NULL) {
+                    free(*n);
+                    *n=NULL;
                 }
                 *score=pontua(*score,tela);
                 sul(tela, p);
@@ -113,9 +113,9 @@ void mover (char tela[ALTURA][LARGURA], Snake* p,Ponto* n, int* score, int* rein
         if (tela[p->y][p->x-1]==ESPACO || tela[p->y][p->x-1]==PONTO) {
             if (tela[p->y][p->x-1]==PONTO) {
                 snakeCresce(p);
-                if (n!=NULL) {
-                    free(n);
-                    n=NULL;
+                if (*n!=NULL) {
+                    free(*n);
+                    *n=NULL;
                 }
                 *score=pontua(*score,tela);
                 oeste(tela, p);
@@ -131,9 +131,9 @@ void mover (char tela[ALTURA][LARGURA], Snake* p,Ponto* n, int* score, int* rein
         if (tela[p->y][p->x+1]==ESPACO || tela[p->y][p->x+1]==PONTO) {
             if (tela[p->y][p->x+1]==PONTO) {
                 snakeCresce(p);
-                if (n!=NULL) {
-                    free(n);
-                    n=NULL;
+                if (*n!=NULL) {
+                    free(*n);
+                    *n=NULL;
                 }
                 leste(tela, p);
                 *score=pontua(*score,tela);
