@@ -45,7 +45,7 @@ typedef struct ponto {
 
 void inicializa (char tela[ALTURA][LARGURA], Snake* p, int score);
 void desenha (char tela[ALTURA][LARGURA]);
-void mover (char tela[ALTURA][LARGURA], Snake* p, Ponto* n, int* score, int* reinicia);
+void mover (char tela[ALTURA][LARGURA], Snake* p, Ponto** n, int* score, int* reinicia);
 void norte (char tela[ALTURA][LARGURA], Snake* p);
 void sul (char tela[ALTURA][LARGURA], Snake* p);
 void oeste (char tela[ALTURA][LARGURA], Snake* p);
