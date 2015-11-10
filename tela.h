@@ -55,7 +55,7 @@ Snake* snakeCresce (Snake* p);
 void snakeLibera (Snake* p);
 void desenhaSnake (Snake* p, char tela[ALTURA][LARGURA]);
 Snake* incializaSnake(int n);
-Ponto* novoPonto(char tela[ALTURA][LARGURA]);
+Ponto novoPonto(char tela[ALTURA][LARGURA]);
 int pontua(int score, char tela[ALTURA][LARGURA]);
 
 #endif

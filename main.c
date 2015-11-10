@@ -41,8 +41,8 @@ int main () {
     char tela[ALTURA][LARGURA];
     int direcao=1, reinicia=1;
     Snake* sL;
-    Ponto* nPonto=NULL;
-    int score=0;
+    Ponto nPonto;
+    int score;
     
     setlocale(LC_ALL,"en_US.UTF-8");
     srand(time(NULL));
@@ -51,6 +51,9 @@ int main () {
         menuStart(tela,"/data/Logo.txt");
         limpa_tela();
         desenha(tela);
+        score=0;
+        nPonto.x=0;
+        nPonto.y=0;
         while (!(getch() == 13 || getch() == 10)){
             ;
         }
@@ -61,16 +64,13 @@ int main () {
             inicializa(tela, sL, score);
             reinicia=1;
             while (1) {
-                if (nPonto==NULL||(nPonto->x==0&&nPonto->y==0)) {
+                if (nPonto.x==0&&nPonto.y==0) {
                     nPonto=novoPonto(tela);
                 }
                 if (reinicia==2) {
                     gameOver(tela, "/data/gameover.txt");
                     desenha(tela);
                     reinicia=-1;
-                    while (nPonto==NULL) {
-                        ;
-                    }
                     break;
                 }
                 if (reinicia==4) {
@@ -86,18 +86,11 @@ int main () {
                     direcao = getch();
                     muda_direcao(sL,direcao,&reinicia);
                 }
-                mover(tela, sL, nPonto, &score, &reinicia);
+                mover(tela, sL, &nPonto, &score, &reinicia);
                 dorme(60);
             }
             snakeLibera(sL);
-            if (nPonto!=NULL) {
-                free(nPonto);
-                nPonto=NULL;
-            }
         }
-    }
-    if (nPonto!=NULL) {
-        free(nPonto);
     }
   return 0;
 }

@@ -77,9 +77,9 @@ void mover (char tela[ALTURA][LARGURA], Snake* p,Ponto* n, int* score, int* rein
         if (tela[p->y-1][p->x]==ESPACO || tela[p->y-1][p->x]==PONTO) {
             if (tela[p->y-1][p->x]==PONTO) {
                 snakeCresce(p);
-                if (n!=NULL) {
-                    free(n);
-                    n=NULL;
+                if (n->x!=0&&n->y!=0) {
+                    n->x=0;
+                    n->y=0;
                 }
                 norte(tela, p);
                 *score=pontua(*score,tela);
@@ -95,9 +95,9 @@ void mover (char tela[ALTURA][LARGURA], Snake* p,Ponto* n, int* score, int* rein
         if (tela[p->y+1][p->x]==ESPACO || tela[p->y+1][p->x]==PONTO) {
             if (tela[p->y+1][p->x]==PONTO) {
                 snakeCresce(p);
-                if (n!=NULL) {
-                    free(n);
-                    n=NULL;
+                if (n->x!=0&&n->y!=0) {
+                    n->x=0;
+                    n->y=0;
                 }
                 *score=pontua(*score,tela);
                 sul(tela, p);
@@ -113,9 +113,9 @@ void mover (char tela[ALTURA][LARGURA], Snake* p,Ponto* n, int* score, int* rein
         if (tela[p->y][p->x-1]==ESPACO || tela[p->y][p->x-1]==PONTO) {
             if (tela[p->y][p->x-1]==PONTO) {
                 snakeCresce(p);
-                if (n!=NULL) {
-                    free(n);
-                    n=NULL;
+                if (n->x!=0&&n->y!=0) {
+                    n->x=0;
+                    n->y=0;
                 }
                 *score=pontua(*score,tela);
                 oeste(tela, p);
@@ -131,9 +131,9 @@ void mover (char tela[ALTURA][LARGURA], Snake* p,Ponto* n, int* score, int* rein
         if (tela[p->y][p->x+1]==ESPACO || tela[p->y][p->x+1]==PONTO) {
             if (tela[p->y][p->x+1]==PONTO) {
                 snakeCresce(p);
-                if (n!=NULL) {
-                    free(n);
-                    n=NULL;
+                if (n->x!=0&&n->y!=0) {
+                    n->x=0;
+                    n->y=0;
                 }
                 leste(tela, p);
                 *score=pontua(*score,tela);
@@ -268,13 +268,13 @@ void snakeLibera(Snake* p){
     }
 }
 
-Ponto* novoPonto(char tela[ALTURA][LARGURA]){
-    Ponto* n=(Ponto*)malloc(sizeof(Ponto));
+Ponto novoPonto(char tela[ALTURA][LARGURA]){
+    Ponto n;
     do {
-        n->x=rand()%(LARGURA) +1;
-        n->y=rand()%(ALTURA-1) +1;
-    }while (tela[n->y][n->x]!=ESPACO || n->y==0);
-    tela[n->y][n->x]=PONTO;
+        n.x=rand()%(LARGURA) +1;
+        n.y=rand()%(ALTURA-1) +1;
+    }while (tela[n.y][n.x]!=ESPACO || n.y==0);
+    tela[n.y][n.x]=PONTO;
     return n;
 }
 
