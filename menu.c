@@ -54,9 +54,9 @@ void gameOver(char tela[ALTURA][LARGURA], char path[]) {
     FILE* gameOver;
     char c;
     int i=0,j=3;
-#ifndef WIN_32
+#ifdef WIN_32
     gameOver=fopen(path, "r");
-#elif _APPLE_//(OSX)
+#else
     char pathOSX[1024];
     int counter=0;
     uint32_t size = sizeof(pathOSX);

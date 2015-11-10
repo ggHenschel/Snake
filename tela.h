@@ -56,8 +56,6 @@ void snakeLibera (Snake* p);
 void desenhaSnake (Snake* p, char tela[ALTURA][LARGURA]);
 Snake* incializaSnake(int n);
 Ponto* novoPonto(char tela[ALTURA][LARGURA]);
-int checaPosiçãoPonto(Ponto* n,char tela[ALTURA][LARGURA]);
 int pontua(int score, char tela[ALTURA][LARGURA]);
-//void nortePonto (char tela[ALTURA][LARGURA], Snake* p);
 
 #endif

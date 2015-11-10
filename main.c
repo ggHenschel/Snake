@@ -61,10 +61,16 @@ int main () {
             inicializa(tela, sL, score);
             reinicia=1;
             while (1) {
+                if (nPonto==NULL||(nPonto->x==0&&nPonto->y==0)) {
+                    nPonto=novoPonto(tela);
+                }
                 if (reinicia==2) {
                     gameOver(tela, "/gameover.txt");
                     desenha(tela);
                     reinicia=-1;
+                    while (nPonto==NULL) {
+                        ;
+                    }
                     break;
                 }
                 if (reinicia==4) {
@@ -72,9 +78,6 @@ int main () {
                         ;
                     }
                     reinicia=1;
-                }
-                if (nPonto==NULL||(nPonto->x==0&&nPonto->y==0)) {
-                    nPonto=novoPonto(tela);
                 }
                 limpa_tela();
                 desenha(tela);
