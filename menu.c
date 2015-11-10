@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 // PONTIFICA UNIVERSIDADE CATOLICA DO PARANA
 // ESCOLA POLITECNICA
 // CIENCIA DA COMPUTACAO
@@ -48,15 +49,16 @@ void menuStart(char telaInicial[ALTURA][LARGURA],char path[]){
             }
         }
     }
+	fclose(logo);
 }
 
 void gameOver(char tela[ALTURA][LARGURA], char path[]) {
     FILE* gameOver;
     char c;
     int i=0,j=3;
-#ifdef WIN_32
+#ifndef WIN_32
     gameOver=fopen(path, "r");
-#else
+#elif _APPLE_//(OSX)
     char pathOSX[1024];
     int counter=0;
     uint32_t size = sizeof(pathOSX);
@@ -81,4 +83,5 @@ void gameOver(char tela[ALTURA][LARGURA], char path[]) {
             }
         }
     }
+	fclose(gameOver);
 }
