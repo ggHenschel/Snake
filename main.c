@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 /* main.c */
 // PONTIFICA UNIVERSIDADE CATOLICA DO PARANA
 // ESCOLA POLITECNICA
@@ -44,11 +46,11 @@ int main () {
     Ponto* nPonto=NULL;
     int score=0;
     
-    setlocale(LC_ALL,"en_US.UTF-8");
+    //setlocale(LC_ALL,"en_US.UTF-8");
     srand(time(NULL));
     
-    while (reinicia!=0) {
-        menuStart(tela,"/Logo.txt");
+    while (reinicia>-1) {
+        menuStart(tela,"../data/Logo.txt");
         limpa_tela();
         desenha(tela);
         while (!(getch() == 13 || getch() == 10)){
@@ -61,16 +63,15 @@ int main () {
             inicializa(tela, sL, score);
             reinicia=1;
             while (1) {
-                if (nPonto==NULL||(nPonto->x==0&&nPonto->y==0)) {
-                    nPonto=novoPonto(tela);
-                }
                 if (reinicia==2) {
-                    gameOver(tela, "/gameover.txt");
+					score = 0;
+					for (int i = 2; i < ALTURA-1; i++)
+						for (int j = 1; j < LARGURA-1; j++)
+							tela[i][j] = ' ';
+					gameOver(tela, "../data/gameover.txt");
+					limpa_tela();
                     desenha(tela);
-                    reinicia=-1;
-                    while (nPonto==NULL) {
-                        ;
-                    }
+					(getch() != 49) ? (reinicia = -1) : (reinicia = 1);
                     break;
                 }
                 if (reinicia==4) {
@@ -79,6 +80,9 @@ int main () {
                     }
                     reinicia=1;
                 }
+                if (nPonto==NULL||(nPonto->x==0&&nPonto->y==0)) {
+                    nPonto=novoPonto(tela);
+                }
                 limpa_tela();
                 desenha(tela);
 
@@ -86,8 +90,8 @@ int main () {
                     direcao = getch();
                     muda_direcao(sL,direcao,&reinicia);
                 }
-                mover(tela, sL, nPonto, &score, &reinicia);
-                dorme(60);
+                mover(tela, sL, &nPonto, &score, &reinicia);
+                dorme(60/(score+1)); // acelerando rapido d+?
             }
             snakeLibera(sL);
             if (nPonto!=NULL) {
