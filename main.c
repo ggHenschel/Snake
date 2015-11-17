@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <time.h>
+#include "ranking.h"
 #include "tela.h"
 #include "menu.h"
 
@@ -39,10 +40,12 @@ COORD coord = { 0, 0 };
 int main () {
     
     char tela[ALTURA][LARGURA];
+    char iniciais[5];
     int direcao=1, reinicia=1;
     Snake* sL;
     Ponto nPonto;
     int score;
+    Rank* rkAt;
     
     setlocale(LC_ALL,"en_US.UTF-8");
     srand(time(NULL));
@@ -70,6 +73,20 @@ int main () {
                 if (reinicia==2) {
                     gameOver(tela, "/data/gameover.txt");
                     desenha(tela);
+                    while (!(getch() == 13 || getch() == 10)){
+                        ;
+                    }
+                    rkAt=carregaRanking("/data/ranking.csv");
+                    if (verificaRK(rkAt, score)) {
+                        printf("Digite os 5 Digitos do Nome.");
+                        scanf(" %4s",iniciais);
+                        rkAt=insereRanking(rkAt, criaRanking(iniciais, score, 0));
+                        salvaRanking(rkAt, "/data/ranking.csv"); //ERROR AQUI
+                    }
+                    mostraRanking(rkAt, tela, "/data/rankingDesign.txt");
+                    while (!(getch() == 13 || getch() == 10)){
+                        ;
+                    }
                     reinicia=-1;
                     break;
                 }

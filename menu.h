@@ -15,6 +15,7 @@
 #ifndef menu_h
 #define menu_h
 #include <stdio.h>
+#include <string.h>
 #include "tela.h"
 
 void menuStart(char telaInicial[ALTURA][LARGURA], char path[]);

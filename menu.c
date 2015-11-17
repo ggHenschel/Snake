@@ -13,7 +13,6 @@
 // CURITIBA 2015
 
 #include "menu.h"
-#include <string.h>
 
 void menuStart(char telaInicial[ALTURA][LARGURA],char path[]){
     FILE* logo;
@@ -54,7 +53,7 @@ void gameOver(char tela[ALTURA][LARGURA], char path[]) {
     FILE* gameOver;
     char c;
     int i=0,j=3;
-#ifdef WIN_32
+#ifdef _WIN32
     gameOver=fopen(path, "r");
 #else
     char pathOSX[1024];
