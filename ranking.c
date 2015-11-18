@@ -59,42 +59,49 @@ Rank* carregaRanking(char path[]){
         printf("ERRO AO ABRIR ARQUIVO");
         return NULL;
     } else {
-        while (fgets(line, 1024, rankingTXT)!=NULL) {
-//            int const got=fscanf(rankingTXT, "%d;%4[^;];%d;[ˆ\n] ",&posicaoN,inciais,&pontos);
-//            inciais[4]='\0';
-            n=0;
-            k=0;
-            while (line[n]!=';') {
-                posicao[k]=line[n];
-                n++;
-                k++;
-            }
-            posicao[k]='\0';
-            k=0;
-            posicaoN=atoi(posicao);
-            n++;
-            while (line[n]!=';') {
-                inciais[k]=line[n];
-                n++;
-                k++;
-            }
-            inciais[k]='\0';
-            k=0;
-            n++;
-            while (line[n]!=';') {
-                pontos[k]=line[n];
-                n++;
-                k++;
-            }
-            pontos[k]='\0';
-            pontosN=atoi(pontos);
-            if (i==0) {
-                novo=criaRanking(inciais, pontosN, posicaoN);
-            } else  {
-                novo=insereRanking(novo, criaRanking(inciais, pontosN, posicaoN));
-            }
-            i++;
-        }
+//        while (fgets(line, 1024, rankingTXT)!=NULL) {
+//            n=0;
+//            k=0;
+//            while (line[n]!=';') {
+//                posicao[k]=line[n];
+//                n++;
+//                k++;
+//            }
+//            posicao[k]='\0';
+//            k=0;
+//            posicaoN=atoi(posicao);
+//            n++;
+//            while (line[n]!=';') {
+//                inciais[k]=line[n];
+//                n++;
+//                k++;
+//            }
+//            inciais[k]='\0';
+//            k=0;
+//            n++;
+//            while (line[n]!=';') {	
+//                pontos[k]=line[n];
+//                n++;
+//                k++;
+//            }
+//            pontos[k]='\0';
+//            pontosN=atoi(pontos);
+//            if (i==0) {
+//                novo=criaRanking(inciais, pontosN, posicaoN);
+//            } else  {
+//                novo=insereRanking(novo, criaRanking(inciais, pontosN, posicaoN));
+//            }
+//            i++;
+//        }
+            while (fscanf(rankingTXT,"%d;%[^;];%d;",&posicaoN,inciais,&pontosN)==3) {
+                    if (i==0) {
+                        novo=criaRanking(inciais, pontosN, posicaoN);
+                    } else  {
+                        novo=insereRanking(novo, criaRanking(inciais, pontosN, posicaoN));
+                    }
+                    i++;
+                }
+
     }
     fclose(rankingTXT);
     return novo;
@@ -218,7 +225,7 @@ void salvaRanking(Rank* ranking, char path[]){
     FILE* rankingCSV;
     char posicao[4],pontos[5];
 #ifdef _WIN32
-    rankingCSV=fopen(path, "r+");
+    rankingCSV=fopen(path, "w+");
 #else
     char pathOSX[1024];
     int counter=0;
@@ -229,42 +236,14 @@ void salvaRanking(Rank* ranking, char path[]){
     }
     pathOSX[counter]='\0';
     strcat(pathOSX,path);
-    rankingCSV=fopen(pathOSX, "r+");
+    rankingCSV=fopen(pathOSX, "w");
     printf("%s",pathOSX);
 #endif
-    if (rankingCSV!=NULL) {
-        printf("ERROR AO ABRIR ARQUIVO\n");
+    if (rankingCSV==NULL) {
+        printf("ERROR AO ABRIR ARQUIVO %s\n", pathOSX);
     } else {
         for (p=ranking; p!=NULL; p=p->prox) {
-            int posicaoN=p->Posicao;
-            if (posicaoN==10) {
-                posicao[0]='1';
-                posicao[1]='0';
-                posicao[3]='\0';
-            } else {
-                posicao[0]='0';
-                posicao[1]='0'+posicaoN;
-                posicao[3]='\0';
-            }
-            int pontosN=p->Pontos;
-            if (pontosN>=1000) {
-                pontos[0]='0'+(pontosN/1000);
-                pontosN-=1000*(pontosN/1000);
-            }
-            if (pontosN>=100) {
-                pontos[1]='0'+(pontosN/100);
-                pontosN-=100*(pontosN/100);
-            }
-            if (pontosN>=10) {
-                pontos[2]='0'+(pontosN/10);
-                pontosN-=1000*(pontosN/10);
-            }
-            if (pontosN>=1) {
-                pontos[3]='0'+(pontosN);
-                pontosN-=(pontosN);
-            }
-            pontos[4]='\0';
-            fprintf(rankingCSV, "%s;%s;%s\n",posicao,p->iniciais,pontos);
+            fprintf(rankingCSV, "%d;%s;%d;\n",p->Posicao,p->iniciais,p->Pontos);
         }
         fclose(rankingCSV);
     }
