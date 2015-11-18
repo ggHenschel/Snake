@@ -35,11 +35,7 @@ Rank* carregaRanking(char path[]){
     Rank* novo=NULL;
     FILE* rankingTXT;
     char inciais[5];
-    char line[1024];
-    char posicao[3],pontos[5];
-    char c='0';
-    int posicaoN,i=0, n=0,k=0;
-    int pontosN;
+    int posicaoN,pontosN,i;
 #ifdef _WIN32
     rankingTXT=fopen(path, "r+");
 #else
@@ -59,49 +55,14 @@ Rank* carregaRanking(char path[]){
         printf("ERRO AO ABRIR ARQUIVO");
         return NULL;
     } else {
-//        while (fgets(line, 1024, rankingTXT)!=NULL) {
-//            n=0;
-//            k=0;
-//            while (line[n]!=';') {
-//                posicao[k]=line[n];
-//                n++;
-//                k++;
-//            }
-//            posicao[k]='\0';
-//            k=0;
-//            posicaoN=atoi(posicao);
-//            n++;
-//            while (line[n]!=';') {
-//                inciais[k]=line[n];
-//                n++;
-//                k++;
-//            }
-//            inciais[k]='\0';
-//            k=0;
-//            n++;
-//            while (line[n]!=';') {	
-//                pontos[k]=line[n];
-//                n++;
-//                k++;
-//            }
-//            pontos[k]='\0';
-//            pontosN=atoi(pontos);
-//            if (i==0) {
-//                novo=criaRanking(inciais, pontosN, posicaoN);
-//            } else  {
-//                novo=insereRanking(novo, criaRanking(inciais, pontosN, posicaoN));
-//            }
-//            i++;
-//        }
-            while (fscanf(rankingTXT,"%d;%[^;];%d;",&posicaoN,inciais,&pontosN)==3) {
-                    if (i==0) {
-                        novo=criaRanking(inciais, pontosN, posicaoN);
-                    } else  {
-                        novo=insereRanking(novo, criaRanking(inciais, pontosN, posicaoN));
-                    }
-                    i++;
+        while (fscanf(rankingTXT,"%d;%[^;];%d;",&posicaoN,inciais,&pontosN)==3) {
+                if (i==0) {
+                    novo=criaRanking(inciais, pontosN, posicaoN);
+                } else  {
+                    novo=insereRanking(novo, criaRanking(inciais, pontosN, posicaoN));
                 }
-
+                i++;
+            }
     }
     fclose(rankingTXT);
     return novo;
@@ -237,10 +198,10 @@ void salvaRanking(Rank* ranking, char path[]){
     pathOSX[counter]='\0';
     strcat(pathOSX,path);
     rankingCSV=fopen(pathOSX, "w");
-    printf("%s",pathOSX);
+    //printf("%s",pathOSX);
 #endif
     if (rankingCSV==NULL) {
-        printf("ERROR AO ABRIR ARQUIVO %s\n", pathOSX);
+        printf("ERROR AO ABRIR ARQUIVO\n");
     } else {
         for (p=ranking; p!=NULL; p=p->prox) {
             fprintf(rankingCSV, "%d;%s;%d;\n",p->Posicao,p->iniciais,p->Pontos);

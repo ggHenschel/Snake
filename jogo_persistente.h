@@ -9,8 +9,9 @@
 #ifndef jogo_persistente_h
 #define jogo_persistente_h
 #include <stdio.h>
+#include "tela.h"
 
-void salvaJogo();
-void carregaJogo();
+int salvaJogo(Snake* sl, int score, Ponto p);
+Snake* carregaJogo(int* score, Ponto* p);
 
 #endif /* jogo_persistente_h */

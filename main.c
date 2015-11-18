@@ -20,6 +20,7 @@
 #include "ranking.h"
 #include "tela.h"
 #include "menu.h"
+#include "jogo_persistente.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -41,7 +42,7 @@ int main () {
     
     char tela[ALTURA][LARGURA];
     char iniciais[5];
-    int direcao=1, reinicia=1;
+    int direcao=0, reinicia=1,modojogo;
     Snake* sL;
     Ponto nPonto;
     int score;
@@ -60,15 +61,32 @@ int main () {
         while (!(getch() == 13 || getch() == 10)){
             ;
         }
+        menuStart(tela,"/data/menup1.txt");
+        limpa_tela();
+        desenha(tela);
+        while (!((direcao=getch()) == '1' || (direcao=getch()) == '2')){
+            ;
+        }
+        if (direcao=='1') {
+            modojogo=1;
+        } else
+            modojogo=2;
 		limpa_tela();
         reinicia=1;
+        direcao=1;
         while (reinicia>-1) {
-            sL=incializaSnake(3);
+            if (modojogo==1) {
+                sL=carregaJogo(&score,&nPonto);
+            } else {
+                sL=incializaSnake(3);
+            }
             inicializa(tela, sL, score);
             reinicia=1;
             while (1) {
                 if (nPonto.x==0&&nPonto.y==0) {
                     nPonto=novoPonto(tela);
+                } else if (tela[nPonto.y][nPonto.x]!=PONTO) {
+                    tela[nPonto.y][nPonto.x]=PONTO;
                 }
                 if (reinicia==2) {
                     gameOver(tela, "/data/gameover.txt");
@@ -87,6 +105,11 @@ int main () {
                     while (!(getch() == 13 || getch() == 10)){
                         ;
                     }
+                    reinicia=-1;
+                    break;
+                }
+                if (reinicia==5) {
+                    salvaJogo(sL,score,nPonto);
                     reinicia=-1;
                     break;
                 }

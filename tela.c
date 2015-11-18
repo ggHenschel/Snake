@@ -209,6 +209,8 @@ void muda_direcao (Snake* p, int d, int*reinicia){
             p->d = LESTE;
     } else if (d == 27) {
         *reinicia = 4;
+    } else if (d == '1') {
+        *reinicia = 5;
     }
 }
 
@@ -285,4 +287,57 @@ int pontua(int score, char tela[ALTURA][LARGURA] ){
     tela[0][(LARGURA-7)/2 +8]=  48 + ((int)score/10);
     tela[0][(LARGURA-7)/2 +9]=  48 + ((int)score%10);
     return score;
+}
+
+Snake* incrementoProgramado(Snake* p,Snake* n){
+    Snake* ant=NULL;
+    Snake* novo;
+    Snake* sl;
+    for (sl=p; sl!=NULL; sl=sl->prox) {
+        ant=sl;
+    }
+    novo = (Snake*) malloc(sizeof(Snake));
+    novo->prox=NULL;
+    novo->x=n->x;
+    novo->y=n->y;
+    switch (ant->d) {
+        case NORTE:
+            if (novo->x==ant->x) {
+                novo->d=ant->d;
+            } else if (novo->x<ant->x){
+                novo->d=LESTE;
+            } else {
+                novo->d=OESTE;
+            }
+            break;
+        case SUL:
+            if (novo->x==ant->x) {
+                novo->d=ant->d;
+            } else if (novo->x<ant->x){
+                novo->d=LESTE;
+            } else {
+                novo->d=OESTE;
+            }
+        case LESTE:
+            if (novo->y==ant->y) {
+                novo->d=ant->d;
+            } else if (novo->y<ant->y){
+                novo->d=SUL;
+            } else {
+                novo->d=NORTE;
+            }
+        case OESTE:
+            if (novo->y==ant->y) {
+                novo->d=ant->d;
+            } else if (novo->y<ant->y){
+                novo->d=SUL;
+            } else {
+                novo->d=NORTE;
+            }
+        default:
+            novo->d=ant->d;
+            break;
+    }
+    ant->prox=novo;
+    return p;
 }
